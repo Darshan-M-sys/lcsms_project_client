@@ -42,7 +42,7 @@ const TechnicianCard = ({technician}) => {
       <div className="mt-4">
         <p className="font-medium text-sm text-gray-800 mb-1">Skills:</p>
         <div className="flex flex-wrap gap-2">
-          {technician.skills.map((skill, index) => (
+          {technician?.skills?.map((skill, index) => (
             <span
               key={index}
               className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full"

@@ -1,34 +1,6 @@
 import React from "react";
 
 const StatusTimeLine = ({ timeLineStatus=[] }) => {
-  // console.log("Timeline Status:", timeLineStatus); // Debug log to check the status prop
-  const statusHistory = [
-    {
-      status: "Request Created",
-      time: "10:00 AM",
-      description: "Customer created service request",
-    },
-    {
-      status: "Assigned to Technician",
-      time: "10:30 AM",
-      description: "Request assigned to Rahul Kumar",
-    },
-    {
-      status: "Technician Accepted",
-      time: "11:00 AM",
-      description: "Technician accepted the job",
-    },
-    {
-      status: "On the Way",
-      time: "11:30 AM",
-      description: "Technician is traveling to customer location",
-    },
-    {
-      status: "Work Started",
-      time: "12:00 PM",
-      description: "Diagnosis and repair started",
-    },
-  ];
 
   return (
     <div className="relative w-full py-10">
@@ -73,7 +45,7 @@ const StatusTimeLine = ({ timeLineStatus=[] }) => {
                     <p className="text-sm text-gray-600 mt-1">
                       {item.note || "No description available"}
                     </p>
-                    <p className="text-xs text-gray-400 mt-2">⏱ {item.time}</p>
+                    <p className="text-xs text-gray-400 mt-2">⏱ {new Date(item.changedAt).toLocaleTimeString()}</p>
                   </div>
                 )}
               </div>

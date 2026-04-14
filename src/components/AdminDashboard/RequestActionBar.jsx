@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 const RequestActionBar = ({
+  request,
+  setIsOpen,
   render,
+  bill,
   setRender,
   technicians = [],
-  onAssign,
-  onStatusUpdate,
   onDelete,
 }) => {
   const {id}=useParams()
@@ -101,7 +102,13 @@ const RequestActionBar = ({
         </button>
       </div>
 
-      {/* 🗑️ Delete */}
+    {request.status==="Completed" &&  !bill.requestId &&
+    (  <button
+        onClick={()=>setIsOpen(true)}
+        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700"
+      >
+         Create Bill
+      </button>) }
       <button
         onClick={onDelete}
         className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700"

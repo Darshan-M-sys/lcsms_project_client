@@ -1,62 +1,80 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 
-const ChatMessageCard = () => {
-  // 🔥 Static initial messages
-  const [messages, setMessages] = useState([
-    {
-      sender: "customer",
-      message: "Hi, my laptop is overheating very quickly.",
-      time: "10:00 AM",
-    },
-    {
-      sender: "technician",
-      message: "Okay, I will check the fan and thermal paste.",
-      time: "10:05 AM",
-    },
-  ]);
+const ChatMessageCard = ({ messages = [], setMessages,render,setRender }) => {
+  const { id } = useParams();
+  const { user } = useContext(AuthContext);
 
   const [input, setInput] = useState("");
   const chatEndRef = useRef(null);
 
-  // ⬇️ Auto scroll to bottom
+  // auto scroll
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // ⬆️ Send message
-  const handleSend = () => {
+  // send message
+  const handleSend = async () => {
     if (!input.trim()) return;
 
     const newMessage = {
-      sender: "customer",
-      message: input,
+      text: input,
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       }),
+      senderId: {
+        _id: user?._id,
+        role: user?.role,
+        name: user?.name,
+      },
     };
 
-    setMessages([...messages, newMessage]);
+    // optimistic UI
+    if (setMessages) {
+      setMessages((prev) => [...prev, newMessage]);
+    }
+
     setInput("");
+
+    try {
+      await axios.put(
+        `http://localhost:5000/api/admin/add/message/${id}`,
+        { text: input },
+        { withCredentials: true }
+     
+      );
+         setRender(!render)
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
     <div className="flex flex-col bg-gray-100 rounded-xl h-[450px] overflow-hidden">
-
-      {/* 💬 CHAT AREA */}
       <h1 className="text-lg font-bold p-4">Chat Messages</h1>
-      <div className="flex-1 p-4 overflow-y-auto">
 
+      {/* CHAT AREA */}
+      <div className="flex-1 p-4 overflow-y-auto">
         {messages.map((msg, index) => {
-          const isCustomer = msg.sender === "customer";
+          const role = msg?.senderId?.role;
+          const isCustomer = role === "customer";
+          const senderName = msg?.senderId?.username || "Unknown";
 
           return (
             <div
               key={index}
-              className={`flex mb-3 ${
-                isCustomer ? "justify-start" : "justify-end"
+              className={`flex flex-col mb-3 ${
+                isCustomer ? "items-start" : "items-end"
               }`}
             >
+              {/* 👤 Sender Name */}
+              <span className="text-xs text-gray-500 mb-1">
+                {senderName}{`(${role})`}
+              </span>
+
               <div
                 className={`max-w-[70%] p-3 rounded-xl shadow text-sm ${
                   isCustomer
@@ -64,23 +82,27 @@ const ChatMessageCard = () => {
                     : "bg-blue-500 text-white rounded-tr-none"
                 }`}
               >
-                <p>{msg.message}</p>
+                <p>{msg?.text || "No message"}</p>
 
+                {/* 🕒 Time */}
+                 {/* <div ref={chatEndRef} /> */}
                 <p className="text-[10px] mt-1 opacity-70 text-right">
-                  {msg.time}
+                  {msg?.time ||
+                    new Date().toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                 </p>
               </div>
             </div>
           );
         })}
 
-        {/* 👇 auto scroll anchor */}
-        <div ref={chatEndRef}></div>
+       
       </div>
 
-      {/* ⌨️ INPUT AREA */}
+      {/* INPUT */}
       <div className="flex items-center gap-2 p-3 bg-white border-t">
-
         <input
           type="text"
           value={input}
@@ -91,11 +113,10 @@ const ChatMessageCard = () => {
 
         <button
           onClick={handleSend}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition"
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600"
         >
           Send
         </button>
-
       </div>
     </div>
   );
