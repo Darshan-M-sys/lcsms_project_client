@@ -12,8 +12,10 @@ import AdminDashboard from './pages/AdminDashboard'
 import AddTechnicians from './pages/AdminDashboardPages/AddTechnicians'
 import TechniciansPage from './pages/AdminDashboardPages/TechniciansPage'
 import RequestsPage from './pages/AdminDashboardPages/RequestsPage'
+import RequestsPages from './pages/Techniciandashboard/RequestsPages'
 import RequestViewPage from './pages/AdminDashboardPages/RequestViewPage'
 import CustomerPage from './pages/AdminDashboardPages/CustomerPage'
+import TechnicianDashboard from './pages/Techniciandashboard/TechnicianDashboard'
 
 const App = () => {
   return (
@@ -35,6 +37,10 @@ const App = () => {
 <Route path='/customer/request/service' element={<RequestService />} />
 <Route path='/customer/my/services' element={<MyServices />} />
 <Route path='/customer/my/services/view/:id' element={<CustomerRequestView />} />
+
+{/* Technician  Routes */}
+<Route path='/technician/dashboard' element={<TechnicianDashboard />} />
+<Route path='/technician/request/service' element={<RequestsPages />} />
 </Routes>
 </>
 

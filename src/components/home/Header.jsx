@@ -29,10 +29,17 @@ const Header = () => {
 
 
   useEffect(()=>{
-    
+    const timeOut=setTimeout(()=>{
+
     if(isLogout){
     nav("/")
+    window.location.href="/";
     }
+      },1000)
+
+     return()=>{
+      clearTimeout(timeOut);
+     } 
   },[isLogout])
   return (
 
