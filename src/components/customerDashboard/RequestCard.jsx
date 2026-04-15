@@ -1,6 +1,8 @@
 import React from "react";
+import ImagePreview from "../ImagePreview";
 
 const RequestCard = ({ request }) => {
+  const [image,setImage]=React.useState("");
   if (!request) return null;
 
   return (
@@ -55,9 +57,24 @@ const RequestCard = ({ request }) => {
       </div>
 
       {/* FOOTER */}
-      <div className="mt-4 text-xs text-gray-400">
+      <div className="mt-4 text-xs  text-gray-400">
         Request ID: {request._id}
       </div>
+         <h1 className="text-lg mt-2 font-bold">Problem Device Images</h1>
+      <div className='flex gap-2 '>
+      {
+      request?.images?.map((item,i)=>{
+        return(
+          <div className="flex flex-row" key={i}>
+            <img onClick={()=>setImage(item.url)} className="w-[100px] h-[100px] rounded-xl" src={item.url} alt="problem logos" /> 
+            </div>
+        )
+      })  
+      }
+   {image && (
+    <ImagePreview image={image} setImage={setImage} />
+   )}
+</div>
     </div>
   );
 };

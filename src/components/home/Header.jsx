@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Bell, Menu, X, User } from "lucide-react";
 import logo from "../assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,22 +9,31 @@ const Header = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const {user,setUser}=useContext(AuthContext);
   const nav=useNavigate();
+   const [isLogout,setIsLogout]=useState(false)
   const handleLogout=()=>{
-
+  
     try {
       const res=axios.post("http://localhost:5000/api/auth/logout",{},{
         withCredentials:true
       })
       if(res.data?.success){
         setUser(null)
-nav("/")
+        setIsLogout(true)
       }
+
     } catch (error) {
       console.log(error.message)
     }
     setUser(null);
   }
 
+
+  useEffect(()=>{
+    
+    if(isLogout){
+    nav("/")
+    }
+  },[isLogout])
   return (
 
     <header className="bg-gray-900 fixed top-0 left-0 right-0 w-full z-50 text-white shadow-lg">
