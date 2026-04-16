@@ -57,15 +57,6 @@ handleGetAllTechnicians();
    }
   };
 
-  // 👁️ View (demo)
-  const handleView = (tech) => {
-    alert(`Viewing: ${tech.fullName}`);
-  };
-
-  // ✏️ Edit (demo)
-
-
-
   return (
     <>
     <Header/>
@@ -131,12 +122,6 @@ handleGetAllTechnicians();
                 <td className="p-3">
                   <div className="flex justify-center gap-2">
 
-                    <button
-                      onClick={() => handleView(tech)}
-                      className="px-2 py-1 bg-blue-500 text-white rounded text-xs"
-                    >
-                      View
-                    </button>
 
                     <button
                       

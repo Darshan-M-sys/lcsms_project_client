@@ -21,7 +21,6 @@ const TechnicianRequestViewPage = () => {
    try {
     const res= await axios.get(`http://localhost:5000/api/technician/get/request/${id}`,{withCredentials:true});
     setRequest(res.data?.data || {});
-    console.log(res.data?.data )
    } catch (error) {
     console.log(error);
    }
@@ -39,7 +38,7 @@ const TechnicianRequestViewPage = () => {
     try {
       const res= await axios.get(`http://localhost:5000/api/technician/get/bill/${id}`,{withCredentials:true});
      setBill(res.data?.data || {})
-     console.log(res.data?.data || " this one is not getting in  this API router" )
+  
     } catch (error) {
       console.log(error.message)
     } 

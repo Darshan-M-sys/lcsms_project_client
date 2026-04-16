@@ -39,7 +39,7 @@ const res= await axios.put(`http://localhost:5000/api/technician/request/status/
       if(id){
      const res= await axios.delete(`http://localhost:5000/api/technician/delete/request/${id}`,{withCredentials:true}) ;
      if(res.status) {
-      nav("technician/request/service")
+      nav("/technician/request/service")
      }
       }
     } catch (error) {

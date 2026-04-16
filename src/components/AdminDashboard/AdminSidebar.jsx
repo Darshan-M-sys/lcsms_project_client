@@ -13,8 +13,7 @@ const AdminSidebar = () => {
     { name: "Technicians", icon: "👨‍🔧", path: "/admin/technicians" },
     { name: "Add Technician", icon: "➕", path: "/admin/technicians/add" },
     { name: "Customers", icon: "👥", path: "/admin/customers" },
-    { name: "Chats", icon: "💬", path: "/admin/chats" },
-    { name: "Settings", icon: "⚙️", path: "/admin/settings" },
+
   ];
    const nav=useNavigate()
   const {user,setUser,loading}=useContext(AuthContext)

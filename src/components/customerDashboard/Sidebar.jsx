@@ -39,7 +39,7 @@ nav("/")
     { name: "Dashboard", icon: LayoutDashboard, path: "/customer/dashboard" },
     { name: "My Services", icon: Wrench, path: "/customer/my/services" },
     { name: "Request Service", icon: PlusCircle, path: "/customer/request/service" },
-    { name: "Profile", icon: User, path: "/profile" },
+    { name: "Profile", icon: User, path: "/customer/profile" },
   ];
 
   return (

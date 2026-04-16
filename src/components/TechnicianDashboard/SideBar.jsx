@@ -10,6 +10,7 @@ const SideBar = () => {
   const menu = [
     { name: "Dashboard", icon: "📊", path: "/technician/dashboard" },
     { name: "Requests", icon: "🛠️", path: "/technician/request/service" },
+    { name: "Profile", icon: "👤", path: "/technician/profile" },
   ];
 
 const nav=useNavigate()

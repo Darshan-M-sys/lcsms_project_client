@@ -31,7 +31,7 @@ const Header = () => {
 
   return (
 
-    <header className="bg-gray-900 fixed top-0 left-0 right-0 w-full z-50 text-white shadow-lg">
+    <header className="bg-gray-900  fixed top-0 left-0 right-0 w-full z-50 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
 
         {/* 🔷 Logo */}
@@ -49,9 +49,10 @@ const Header = () => {
         {/* 🔷 Desktop Nav */}
         <nav className="hidden md:flex gap-6 text-sm">
           <a href="/" className="hover:text-blue-400">Home</a>
-          <a href="/services" className="hover:text-blue-400">Services</a>
-          <a href="/customers" className="hover:text-blue-400">Customers</a>
-          <a href="/reports" className="hover:text-blue-400">Reports</a>
+          <a href="/about" className="hover:text-blue-400">About</a>
+           <a href="/contact" className="hover:text-blue-400">Contact</a>
+        
+        {user?.username &&  (<a href="/dashboard" className="hover:text-blue-400">Dashboard</a>) }
         </nav>
 
         {/* 🔷 Right Section */}

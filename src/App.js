@@ -18,6 +18,11 @@ import CustomerPage from './pages/AdminDashboardPages/CustomerPage'
 import TechnicianDashboard from './pages/Techniciandashboard/TechnicianDashboard'
 import TechnicianRequestViewPage from './pages/Techniciandashboard/TechnicianRequestViewPage'
 import Dashboard from './pages/Dashboard'
+import Profile from './pages/Profile'
+import About from './pages/About'
+import Contact from './pages/Contact'
+import TechnicianProfile from './pages/Techniciandashboard/TechnicianProfile'
+
 
 const App = () => {
   return (
@@ -35,7 +40,10 @@ const App = () => {
 <Route path='/admin/customers' element={<CustomerPage />} />
 {/* Customer Dashboard Route */}
 <Route path='/customer/dashboard' element={<CustomerDashboard />} />
-<Route path='/dashboard' element={<Dashboard />} />
+<Route path='/customer/profile' element={<Profile />} />
+<Route path='/about' element={<About />} />
+<Route path='/contact' element={<Contact />} />
+
 
 <Route path='/customer/request/service' element={<RequestService />} />
 <Route path='/customer/my/services' element={<MyServices />} />
@@ -43,6 +51,8 @@ const App = () => {
 
 {/* Technician  Routes */}
 <Route path='/technician/dashboard' element={<TechnicianDashboard />} />
+<Route path='/technician/profile' element={<TechnicianProfile />} />
+<Route path='/dashboard' element={<Dashboard />} />
 <Route path='/technician/request/service' element={<RequestsPages />} />
 <Route path='/technician/request/view/:id' element={<TechnicianRequestViewPage />} />
 </Routes>
