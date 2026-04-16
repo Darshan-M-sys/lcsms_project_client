@@ -7,7 +7,7 @@ import axios from "axios";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const {user,setUser}=useContext(AuthContext);
+  const {user,setUser,loading}=useContext(AuthContext);
   const nav=useNavigate();
    const [isLogout,setIsLogout]=useState(false)
   const handleLogout=()=>{
@@ -19,8 +19,9 @@ const Header = () => {
       if(res.data?.success){
         setUser(null)
         setIsLogout(true)
+        nav("/login")
       }
-
+     nav("/login")
     } catch (error) {
       console.log(error.message)
     }
@@ -28,19 +29,6 @@ const Header = () => {
   }
 
 
-  useEffect(()=>{
-    const timeOut=setTimeout(()=>{
-
-    if(isLogout){
-    nav("/")
-    window.location.href="/";
-    }
-      },1000)
-
-     return()=>{
-      clearTimeout(timeOut);
-     } 
-  },[isLogout])
   return (
 
     <header className="bg-gray-900 fixed top-0 left-0 right-0 w-full z-50 text-white shadow-lg">

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RequestCard from '../components/customerDashboard/RequestCard';
 import CustomerCard from '../components/customerDashboard/CoustomerCard';
 import Header from '../components/home/Header';
@@ -44,12 +44,29 @@ const CustomerRequestView = () => {
   useEffect(()=>{
   handleGetBill();
   },[id,render])
+ const nav=useNavigate();
+     const handleDelete=async(id)=>{
+      if(!window.confirm("Are you sure to delete this request"))return;
+      try {
+        if(id){
+       const res= await axios.delete(`http://localhost:5000/api/services/request/delete/request/${id}`,{withCredentials:true}) ;
+       if(res.status) {
+        nav("technician/request/service")
+       }
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+     }
+  
+
 
   return (
     <>
     <Header/>
     <Sidebar/>
     <div className='mt-20 md:ml-[250px] p-5'>
+      <button onClick={()=>handleDelete(id)} className="p-2 bg-red-500 text-white rounded-lg text-center m-4">Delete Request</button>
  <div className='flex flex-col md:flex-row gap-5'>
       <RequestCard request={request} />
       <CustomerCard customer={request} />   

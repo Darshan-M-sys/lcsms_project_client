@@ -3,6 +3,7 @@ import Header from '../../components/home/Header'
 import AdminSidebar from '../../components/AdminDashboard/AdminSidebar'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import SideBar from '../../components/TechnicianDashboard/SideBar';
 
 const RequestsPages = () => {
    const [services, setServices] = useState([]);
@@ -14,10 +15,11 @@ const RequestsPages = () => {
     const fetchServices = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/admin/all/requests",
+          "http://localhost:5000/api/technician/get/all/assigned/requests",
           { withCredentials: true }
         );
         setServices(res.data?.data || []);
+        console.log(res.data?.data)
       } catch (error) {
         console.log(error);
       } finally {
@@ -69,7 +71,7 @@ const RequestsPages = () => {
 
     <>
     <Header/>
-    <AdminSidebar/>
+    <SideBar/>
   
 <div className="md:ml-[250px] mt-20 p-6 bg-gray-50 min-h-screen">
 
@@ -133,7 +135,7 @@ const RequestsPages = () => {
             {filteredServices.map((service) => (
               <div
                 key={service._id}
-                onClick={() => navigate(`/admin/requests/${service._id}`)}
+                onClick={() => navigate(`/technician/request/view/${service._id}`)}
                 className="bg-white rounded-2xl shadow hover:shadow-xl transition p-5 cursor-pointer border"
               >
                 {/* HEADER */}

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RequestForm = () => {
   const [formData, setFormData] = useState({
@@ -26,6 +27,7 @@ const RequestForm = () => {
     images: [],
   });
   const [preview, setPreview] = useState([]);
+  const nav=useNavigate()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -53,7 +55,7 @@ const handleSubmit = async (e) => {
     formData.images.forEach((img) => {
       requestData.append("images", img);
     });
-
+  
     const res = await axios.post(
       "http://localhost:5000/api/services/request/create",
       requestData,
@@ -66,8 +68,8 @@ const handleSubmit = async (e) => {
     );
 
     if (res.data.success) {
-      alert("Service request created successfully!");
-
+   
+      nav("/customer/my/services")
       setFormData({
         fullName: "",
         email: "",

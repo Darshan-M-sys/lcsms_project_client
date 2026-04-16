@@ -23,7 +23,8 @@ import { useNavigate } from "react-router-dom";
 // ];
 
 
-const RecentServices = ({services=[]}) => {
+const RequestsList = ({services=[]}) => {
+  console.log(services)
   const nav=useNavigate()
   const getStatusColor = (status) => {
   switch (status) {
@@ -52,7 +53,7 @@ const RecentServices = ({services=[]}) => {
       {/* 🔷 List */}
       <div className="space-y-4">
         {services.map((service) => (
-          <div onClick={()=>nav(`/customer/my/services/view/${service._id}`)}
+          <div onClick={()=>nav(`/admin/requests/${service._id}`)}
             key={service.id}
             className="flex justify-between items-center border-b pb-3"
           >
@@ -80,4 +81,4 @@ const RecentServices = ({services=[]}) => {
   );
 };
 
-export default RecentServices;
+export default RequestsList;

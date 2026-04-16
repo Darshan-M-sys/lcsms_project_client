@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
+import { LogOut } from "lucide-react";
 
 const AdminSidebar = () => {
   const [open, setOpen] = useState(false);
 
   const menu = [
-    { name: "Dashboard", icon: "📊", path: "/admin" },
+    { name: "Dashboard", icon: "📊", path: "/admin/dashboard" },
     { name: "Requests", icon: "🛠️", path: "/admin/requests" },
     { name: "Technicians", icon: "👨‍🔧", path: "/admin/technicians" },
     { name: "Add Technician", icon: "➕", path: "/admin/technicians/add" },
@@ -13,6 +16,25 @@ const AdminSidebar = () => {
     { name: "Chats", icon: "💬", path: "/admin/chats" },
     { name: "Settings", icon: "⚙️", path: "/admin/settings" },
   ];
+   const nav=useNavigate()
+  const {user,setUser,loading}=useContext(AuthContext)
+  useEffect(()=>{
+if(!user && !loading){
+nav("/")
+}
+  },[user,loading,nav])
+
+  const handleLogout=async()=>{
+    try {
+      const res= await  axios.post('http://localhost:5000/api/auth/logout',{},{withCredentials:true})
+      if(res.data?.success){
+        setUser(null);
+        nav("/");
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   return (
     <>
@@ -31,6 +53,7 @@ const AdminSidebar = () => {
         ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
         <h1 className="text-xl font-bold mb-8">Admin Panel</h1>
+        <div className="flex flex-col justify-between h-[78vh]">
         <nav className="space-y-2">
           {menu.map((item, index) => (
             <NavLink
@@ -52,6 +75,13 @@ const AdminSidebar = () => {
           ))}
 
         </nav>
+            <div  onClick={handleLogout}  className="relative m-1">
+      <div  className="absolute w-full left-0 h-full backdrop-blur-[20px]  bg-white/10   z-10 top-0 rounded-lg"/>
+        <div className=" relative flex p-5 hover:text-blue-500 gap-10 rounded-lg z-40 ">
+          Logout <LogOut/>
+        </div>
+        </div>
+        </div>
       </div>
     </>
   );

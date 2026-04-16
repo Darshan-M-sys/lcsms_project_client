@@ -35,7 +35,7 @@ const CustomerPage = () => {
    const res= await axios.get('http://localhost:5000/api/admin/get/all/customer',{withCredentials:true});
    setCustomers(res.data?.data || [])
    console.log(res.data?.data)
-   console.log("THis data")
+   console.log("This data")
   } catch (error) {
     console.log(error.message)
   }
@@ -44,6 +44,7 @@ const CustomerPage = () => {
  useEffect(()=>{
 handleGetAllCustomer();
  },[])
+
 
   // 🗑️ Delete Technician
   const handleDelete = async(id) => {
@@ -64,10 +65,7 @@ handleGetAllCustomer();
   };
 
   // ✏️ Edit (demo)
-
-
-
-  return (
+ return (
     <>
     <Header/>
     <AdminSidebar/>
@@ -106,9 +104,6 @@ handleGetAllCustomer();
                 </td>
                 <td className="p-3">
                   <div className="flex justify-center gap-2">
-
-                
-
                     <button
                       onClick={() => handleDelete(tech._id)}
                       className="px-2 py-1 bg-red-500 text-white rounded text-xs"

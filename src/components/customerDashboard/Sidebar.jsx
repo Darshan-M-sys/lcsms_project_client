@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Wrench,
@@ -7,14 +7,36 @@ import {
   PlusCircle,
   Menu,
   X,
+  LogOut,
 } from "lucide-react";
+import AuthContext from "../../context/AuthContext";
+import axios from "axios";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const nav=useNavigate()
+  const {user,setUser,loading}=useContext(AuthContext)
+  useEffect(()=>{
+if(!user && !loading){
+nav("/")
+}
+  },[user,loading,nav])
+
+  const handleLogout=async()=>{
+    try {
+      const res= await  axios.post('http://localhost:5000/api/auth/logout',{},{withCredentials:true})
+      if(res.data?.success){
+        setUser(null);
+        nav("/");
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   const menuItems = [
-    { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
+    { name: "Dashboard", icon: LayoutDashboard, path: "/customer/dashboard" },
     { name: "My Services", icon: Wrench, path: "/customer/my/services" },
     { name: "Request Service", icon: PlusCircle, path: "/customer/request/service" },
     { name: "Profile", icon: User, path: "/profile" },
@@ -43,8 +65,7 @@ const Sidebar = () => {
         <h2 className="text-2xl font-bold mb-8 hidden md:block">
           TechService
         </h2>
-
-        {/* 🔥 Menu */}
+         <div className="flex flex-col justify-between  h-[78vh]">
         <nav className="flex flex-col gap-3">
           {menuItems.map((item, index) => {
             const Icon = item.icon;
@@ -68,6 +89,14 @@ const Sidebar = () => {
             );
           })}
         </nav>
+
+          <div  onClick={handleLogout}  className="relative m-1">
+      <div  className="absolute w-full left-0 h-full backdrop-blur-[20px]  bg-white/10   z-10 top-0 rounded-lg"/>
+        <div className=" relative flex p-5 hover:text-blue-500 gap-10 rounded-lg z-40 ">
+          Logout <LogOut/>
+        </div>
+        </div>
+        </div>
       </aside>
 
       {/* 🔷 Overlay (Mobile) */}

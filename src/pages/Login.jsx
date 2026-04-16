@@ -6,37 +6,52 @@ import axios from "axios";
 import AuthContext from "../context/AuthContext";
 
 const Login = () => {
-
-  const {user,loading,setUser}=useContext(AuthContext);
+  const { user, loading, refreshUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
- const navigate=useNavigate();
+  const navigate = useNavigate();
+
+  // ✅ Already logged-in user redirect
   useEffect(() => {
     if (!loading && user) {
-      navigate("/dashboard");
+      redirectByRole(user);
     }
-  }, [user, loading, navigate]);
+  }, [user, loading]);
 
   const [loadings, setLoadings] = useState(false);
   const [loginError, setLoginError] = useState("");
 
-
-
   const handleChange = (e) => {
-    setLoginError(""); // 🔥 clear error when typing
+    setLoginError("");
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
 
+  // 🔥 ROLE REDIRECT FUNCTION
+  const redirectByRole = (user) => {
+    switch (user.role) {
+      case "customer":
+        navigate("/customer/dashboard", { replace: true });
+        break;
+      case "technician":
+        navigate("/technician/dashboard", { replace: true });
+        break;
+      case "admin":
+        navigate("/admin/dashboard", { replace: true });
+        break;
+      default:
+        navigate("/dashboard", { replace: true });
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🔥 basic validation
     if (!formData.email || !formData.password) {
       return setLoginError("All fields are required");
     }
@@ -51,10 +66,19 @@ const Login = () => {
       );
 
       if (res.data?.success) {
-        // ✅ optional: store user
-        // localStorage.setItem("user", JSON.stringify(res.data.user));
+        // 🔥 IMPORTANT: update context
+        await refreshUser();
 
-        navigate("/dashboard");
+        // 🔥 get updated user from backend
+        const userRes = await axios.get(
+          "http://localhost:5000/api/auth/me",
+          { withCredentials: true }
+        );
+
+        const loggedUser = userRes.data?.data;
+
+        // 🔥 DIRECT REDIRECT HERE
+        redirectByRole(loggedUser);
       }
     } catch (error) {
       setLoginError(
@@ -72,7 +96,6 @@ const Login = () => {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 px-4">
         <div className="w-full max-w-md p-8 space-y-6 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl">
 
-          {/* 🔷 Title */}
           <div>
             <h2 className="text-3xl font-bold text-center text-gray-800">
               Welcome Back 👋
@@ -82,7 +105,6 @@ const Login = () => {
             </p>
           </div>
 
-          {/* 🔷 Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
 
             <FormField
@@ -103,7 +125,6 @@ const Login = () => {
               name="password"
             />
 
-            {/* 🔷 Links */}
             <div className="flex flex-col sm:flex-row sm:justify-between gap-2 text-sm">
               <p className="text-gray-600">
                 Don't have an account?{" "}
@@ -120,14 +141,12 @@ const Login = () => {
               </p>
             </div>
 
-            {/* 🔴 Error */}
             {loginError && (
               <div className="bg-red-100 text-red-600 text-sm p-2 rounded-md text-center">
                 {loginError}
               </div>
             )}
 
-            {/* 🔷 Button */}
             <button
               type="submit"
               disabled={loadings}
