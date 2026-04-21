@@ -46,7 +46,9 @@ const Register = () => {
         "http://localhost:5000/api/auth/register",
         formData,
         { withCredentials: true }
+        
       );
+        navigate("/dashboard");
       if (res.data?.success) {
         navigate("/dashboard");
       }
@@ -63,7 +65,7 @@ const Register = () => {
     <Header/>
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 px-4">
 
-      <div className="w-full max-w-md p-8 space-y-6 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white backdrop-blur-md rounded-2xl shadow-xl">
 
         {/* 🔷 Logo + Title */}
         <div className="flex flex-col items-center gap-2">

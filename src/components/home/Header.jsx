@@ -59,13 +59,7 @@ const Header = () => {
         <div className="flex items-center gap-4">
 
        
-          {/* 🔔 Notification */}
-          <div className="relative cursor-pointer">
-            <Bell size={20} />
-            <span className="absolute -top-1 -right-1 bg-red-500 text-xs px-1 rounded-full">
-              3
-            </span>
-          </div>
+       
     {!user?(      
 <div className="hidden md:flex items-center gap-2">
   <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
@@ -95,8 +89,7 @@ const Header = () => {
             {profileOpen && (
               <div className="absolute right-0 mt-2 bg-white text-black rounded-lg shadow-lg w-40">
                 <ul className="text-sm">
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
+                
                   <li onClick={handleLogout} className="px-4 py-2 hover:text-white hover:bg-red-600  cursor-pointer">Logout</li>
                 </ul>
               </div>

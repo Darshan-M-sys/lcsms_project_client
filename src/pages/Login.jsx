@@ -94,7 +94,7 @@ const Login = () => {
       <Header />
 
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 px-4">
-        <div className="w-full max-w-md p-8 space-y-6 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl">
+        <div className="w-full max-w-md p-8 space-y-6 bg-white backdrop-blur-md rounded-2xl shadow-xl">
 
           <div>
             <h2 className="text-3xl font-bold text-center text-gray-800">
